@@ -1,0 +1,25 @@
+# backend-stack/docker-compose.yml
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models           # local path, no “../”
+      - faiss_index:/app/faiss_index   # optional persistent vectors
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+    networks: [rag-net]
+    restart: unless-stopped
+
+volumes:
+  faiss_index:        # optional, local to this compose
+
+networks:
+  rag-net:
+    external: true    # <-- joins the already-created network
+  mongo:              # service alias, resolved via rag-net
+    external: true
