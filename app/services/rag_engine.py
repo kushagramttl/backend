@@ -78,7 +78,7 @@ def generate_rag_response(query: str) -> str:
 
     context_blocks = []
     for i, p in enumerate(passages, start=1):
-        snippet = truncate_to_tokens(p["text"], limit=400)
+        snippet = truncate_to_tokens(p["text"], limit=800)
         context_blocks.append(f"[{i}] {p['url']}\n{snippet}\n")
 
     context = "\n".join(context_blocks)
